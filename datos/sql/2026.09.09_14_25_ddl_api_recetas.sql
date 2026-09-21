@@ -7,7 +7,8 @@ CREATE TABLE usuario (
     nombre          VARCHAR(100) NOT NULL,
     email           VARCHAR(150) NOT NULL UNIQUE,
     contrasena      VARCHAR(255) NOT NULL,
-    fecha_registro  DATE NOT NULL DEFAULT (CURRENT_DATE)
+    fecha_registro  DATE NOT NULL DEFAULT (CURRENT_DATE),
+    popularidad      INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE receta (
