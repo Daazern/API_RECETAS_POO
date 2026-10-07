@@ -14,4 +14,4 @@ def cargar_menu():
             {'opcion': 7, 'descripcion': 'Salir'}
         ]
     }
-    return menu
+    print(menu)
