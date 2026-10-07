@@ -1,5 +1,6 @@
+import prettytable
 
-from presentacion import cargar_menu
+from datos.presentacion import cargar_menu
 
 tabla_ingredientes = prettytable()
 cargar_menu()
