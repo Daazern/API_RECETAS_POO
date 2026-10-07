@@ -1,4 +1,4 @@
-from auxiliares import nombre_app, version_app
+from auxiliares.datos_app import nombre_app, version_app
 
 def cargar_menu():
     menu = {
