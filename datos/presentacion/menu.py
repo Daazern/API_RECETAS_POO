@@ -6,12 +6,21 @@ def cargar_menu():
         'version_app': version_app,
         'opciones': [
             {'opcion': 1, 'descripcion': 'Listar recetas'},
-            {'opcion': 2, 'descripcion': 'Buscar receta por nombre'},
-            {'opcion': 3, 'descripcion': 'Buscar receta por categoría'},
-            {'opcion': 4, 'descripcion': 'Agregar nueva receta'},
-            {'opcion': 5, 'descripcion': 'Actualizar receta existente'},
-            {'opcion': 6, 'descripcion': 'Eliminar receta'},
-            {'opcion': 7, 'descripcion': 'Salir'}
+            {'opcion': 2, 'descripcion': 'Listar ingredientes'},
+            {'opcion': 3, 'descripcion': 'Buscar receta por nombre'},
+            {'opcion': 4, 'descripcion': 'Buscar receta por categoría'},
+            {'opcion': 5, 'descripcion': 'Agregar nueva receta'},
+            {'opcion': 6, 'descripcion': 'Actualizar receta existente'},
+            {'opcion': 7, 'descripcion': 'Eliminar receta'},
+            {'opcion': 8, 'descripcion': 'Salir'}
         ]
     }
-    print(menu)
+
+    print("=" * 40)
+    print(f"{menu['nombre_app']} - v{menu['version_app']}")
+    print("=" * 40)
+
+    for item in menu['opciones']:
+        print(f"{item['opcion']}. {item['descripcion']}")
+
+    print("=" * 40)
