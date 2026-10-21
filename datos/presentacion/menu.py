@@ -1,11 +1,10 @@
 import sys
 from pathlib import Path
 
-# Permite ejecutar este archivo directamente desde cualquier directorio.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from auxiliares.datos_app import nombre_app, version_app
-from negocio.negocio_ingredientes import procesar_listado_ingredientes, procesar_nuevo_ingrediente
+from negocio.negocio_ingredientes import procesar_listado_ingredientes, procesar_nuevo_ingrediente, procesar_actualizacion_ingrediente, procesar_eliminacion_ingrediente
 
 def mostrar_opciones():
     print(f"\n--- Menú Principal {nombre_app} v{version_app} ---")
@@ -24,24 +23,24 @@ def iniciar_menu():
             case '1':
                 print("\n[Ejecutando: SELECT - Listando registros...]")
                 procesar_listado_ingredientes()
-                # Ejemplo: repo_ingredientes.obtener_todos()
             case '2':
                 print("\n[Ejecutando: INSERT - Agregando nuevo registro...]")
                 procesar_nuevo_ingrediente()
-                # Ejemplo: repo_ingredientes.crear(nuevo_ingrediente)
             case '3':
                 print("\n[Ejecutando: UPDATE - Actualizando registro...]")
+                id_ingrediente = input("Ingrese el ID del ingrediente: ")
+                nombre = input("Ingrese el nuevo nombre: ")
+                unidad_medida = input("Ingrese la nueva unidad de medida: ")
                 procesar_actualizacion_ingrediente(id_ingrediente, nombre, unidad_medida)
-                # Ejemplo: repo_ingredientes.actualizar(id, datos_actualizados)
             case '4':
                 print("\n[Ejecutando: DELETE - Eliminando registro...]")
+                id_ingrediente = input("Ingrese el ID del ingrediente: ")
                 procesar_eliminacion_ingrediente(id_ingrediente)
-                # Ejemplo: repo_ingredientes.eliminar(id)
             case '0':
                 print("\nCerrando el sistema de la API...")
                 break
             case _:
-                print("\nOpción no válida. Por favor, seleccione un número del 1 al 5.")
+                print("\nOpción no válida. Por favor, seleccione un número del 0 al 4.")
 
 
                     

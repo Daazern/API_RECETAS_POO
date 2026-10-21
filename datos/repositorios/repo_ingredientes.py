@@ -10,7 +10,6 @@ def listar_ingredientes():
 
 
 def agregar_ingrediente(nombre, unidad_medida):
-    """Crea el ingrediente si no existe (nombre es UNIQUE). Devuelve el ingrediente o None."""
     try:
         ingrediente, _creado = Ingrediente.get_or_create(
             nombre=nombre,
