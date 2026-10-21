@@ -11,5 +11,5 @@ def procesar_listado_ingredientes(tabla: PrettyTable) -> PrettyTable:
     return tabla
 
 
-def procesar_nuevo_ingrediente(nombre: str, unidad_medida: str):
-    return agregar_ingrediente(nombre, unidad_medida)
+def procesar_nuevo_ingrediente(nombre: str, unidad_medida: str):    
+    return agregar_ingrediente(nombre.strip(), unidad_medida.strip())
