@@ -6,7 +6,7 @@ def mostrar_opciones():
     print("2. Crear nuevo registro")
     print("3. Actualizar registro")
     print("4. Eliminar registro")
-    print("5. Salir")
+    print("0. Salir")
 
 def iniciar_menu():
     while True:
@@ -22,13 +22,18 @@ def iniciar_menu():
                 # Ejemplo: repo_ingredientes.crear(nuevo_ingrediente)
             case '3':
                 print("\n[Ejecutando: UPDATE - Actualizando registro...]")
-                # Ejemplo: repo_ingredientes.actualizar(id, datos)
+                procesar_actualizacion_ingrediente(id_ingrediente, nombre, unidad_medida)
+                # Ejemplo: repo_ingredientes.actualizar(id, datos_actualizados)
             case '4':
                 print("\n[Ejecutando: DELETE - Eliminando registro...]")
+                procesar_eliminacion_ingrediente(id_ingrediente)
                 # Ejemplo: repo_ingredientes.eliminar(id)
-            case '5':
+            case '0':
                 print("\nCerrando el sistema de la API...")
                 break
             case _:
                 print("\nOpción no válida. Por favor, seleccione un número del 1 al 5.")
+
+
+                    
     

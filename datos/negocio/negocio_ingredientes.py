@@ -13,3 +13,12 @@ def procesar_listado_ingredientes(tabla: PrettyTable) -> PrettyTable:
 
 def procesar_nuevo_ingrediente(nombre: str, unidad_medida: str):
     return agregar_ingrediente(nombre, unidad_medida)
+
+
+def procesar_actualizacion_ingrediente(id_ingrediente: int, nombre: str, unidad_medida: str):
+    # Aquí puedes implementar la lógica para actualizar un ingrediente
+    pass
+
+def procesar_eliminacion_ingrediente(id_ingrediente: int):
+    # Aquí puedes implementar la lógica para eliminar un ingrediente
+    pass
