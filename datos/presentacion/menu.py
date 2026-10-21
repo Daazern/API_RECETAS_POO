@@ -12,7 +12,7 @@ def cargar_menu():
             {'opcion': 5, 'descripcion': 'Agregar nueva receta'},
             {'opcion': 6, 'descripcion': 'Actualizar receta existente'},
             {'opcion': 7, 'descripcion': 'Eliminar receta'},
-            {'opcion': 8, 'descripcion': 'Salir'}
+            {'opcion': 0, 'descripcion': 'Salir'}
         ]
     }
 
