@@ -1,4 +1,4 @@
-from peewee import CharField, Model, auto_field
+from peewee import AutoField, CharField, Model
 
 from datos.sql.conexion import conectar
 
@@ -9,7 +9,7 @@ class BaseModel(Model):
         database = db
 
 class Ingrediente(BaseModel):
-    id_ingrediente = auto_field()
+    id_ingrediente = AutoField()
     nombre = CharField(max_length=100, unique=True)
     unidad_medida = CharField(max_length=30)
 

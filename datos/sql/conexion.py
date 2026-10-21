@@ -7,7 +7,7 @@ def conectar():
         config('MySQLDatabase'),
         charset='utf8mb4',
         host=config('host'),
-        port=config('port', cast=int),
+        port=config('port'),
         user=config('user'),
         password=config('password'),
     )
