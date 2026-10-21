@@ -1,26 +1,34 @@
 from auxiliares.datos_app import nombre_app, version_app
 
-def cargar_menu():
-    menu = {
-        'nombre_app': nombre_app,
-        'version_app': version_app,
-        'opciones': [
-            {'opcion': 1, 'descripcion': 'Listar recetas'},
-            {'opcion': 2, 'descripcion': 'Listar ingredientes'},
-            {'opcion': 3, 'descripcion': 'Buscar receta por nombre'},
-            {'opcion': 4, 'descripcion': 'Buscar receta por categoría'},
-            {'opcion': 5, 'descripcion': 'Agregar nueva receta'},
-            {'opcion': 6, 'descripcion': 'Actualizar receta existente'},
-            {'opcion': 7, 'descripcion': 'Eliminar receta'},
-            {'opcion': 0, 'descripcion': 'Salir'}
-        ]
-    }
+def mostrar_opciones():
+    print("\n--- Menú Principal API Recetas ---")
+    print("1. Leer/Listar registros")
+    print("2. Crear nuevo registro")
+    print("3. Actualizar registro")
+    print("4. Eliminar registro")
+    print("5. Salir")
 
-    print("=" * 40)
-    print(f"{menu['nombre_app']} - v{menu['version_app']}")
-    print("=" * 40)
+def iniciar_menu():
+    while True:
+        mostrar_opciones()
+        opcion = input("Seleccione una operación (1-5): ")
 
-    for item in menu['opciones']:
-        print(f"{item['opcion']}. {item['descripcion']}")
-
-    print("=" * 40)
+        match opcion:
+            case '1':
+                print("\n[Ejecutando: SELECT - Listando registros...]")
+                # Ejemplo: repo_ingredientes.obtener_todos()
+            case '2':
+                print("\n[Ejecutando: INSERT - Agregando nuevo registro...]")
+                # Ejemplo: repo_ingredientes.crear(nuevo_ingrediente)
+            case '3':
+                print("\n[Ejecutando: UPDATE - Actualizando registro...]")
+                # Ejemplo: repo_ingredientes.actualizar(id, datos)
+            case '4':
+                print("\n[Ejecutando: DELETE - Eliminando registro...]")
+                # Ejemplo: repo_ingredientes.eliminar(id)
+            case '5':
+                print("\nCerrando el sistema de la API...")
+                break
+            case _:
+                print("\nOpción no válida. Por favor, seleccione un número del 1 al 5.")
+    
