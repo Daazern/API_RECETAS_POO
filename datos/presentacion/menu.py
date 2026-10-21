@@ -1,7 +1,14 @@
+import sys
+from pathlib import Path
+
+# Permite ejecutar este archivo directamente desde cualquier directorio.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from auxiliares.datos_app import nombre_app, version_app
+from negocio.negocio_ingredientes import procesar_listado_ingredientes, procesar_nuevo_ingrediente
 
 def mostrar_opciones():
-    print("\n--- Menú Principal API Recetas ---")
+    print(f"\n--- Menú Principal {nombre_app} v{version_app} ---")
     print("1. Leer/Listar registros")
     print("2. Crear nuevo registro")
     print("3. Actualizar registro")
@@ -16,9 +23,11 @@ def iniciar_menu():
         match opcion:
             case '1':
                 print("\n[Ejecutando: SELECT - Listando registros...]")
+                procesar_listado_ingredientes()
                 # Ejemplo: repo_ingredientes.obtener_todos()
             case '2':
                 print("\n[Ejecutando: INSERT - Agregando nuevo registro...]")
+                procesar_nuevo_ingrediente()
                 # Ejemplo: repo_ingredientes.crear(nuevo_ingrediente)
             case '3':
                 print("\n[Ejecutando: UPDATE - Actualizando registro...]")
