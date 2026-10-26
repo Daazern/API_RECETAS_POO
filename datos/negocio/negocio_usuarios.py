@@ -7,7 +7,7 @@
 #     popularidad      INT NOT NULL DEFAULT 0
 # );
 from prettytable import PrettyTable
-from datos.repositorios.repo_usuarios import listar_usuarios, agregar_usuario
+from datos.repositorios.repo_usuarios import listar_usuarios, agregar_usuario, actualizar_usuario, eliminar_usuario, obtener_usuario_por_id
 
 
 def procesar_listado_usuarios(tabla: PrettyTable = None):
@@ -25,3 +25,15 @@ def crear_usuario(nombre: str, email: str, contrasena: str):
     if nuevo:
         print(f"Usuario '{nuevo.nombre}' agregado exitosamente.")
     return nuevo
+
+def actualizar_usuario_existente(id_usuario: int, nombre: str, email: str, contrasena: str):
+    usuario_actualizado = actualizar_usuario(id_usuario, nombre.strip(), email.strip(), contrasena)
+    if usuario_actualizado:
+        print(f"Usuario con ID {id_usuario} actualizado exitosamente.")
+    return usuario_actualizado
+
+def eliminar_usuario_existente(id_usuario: int):
+    exito = eliminar_usuario(id_usuario)
+    if exito:
+        print(f"Usuario con ID {id_usuario} eliminado exitosamente.")
+    return exito

@@ -1,7 +1,7 @@
 from prettytable import PrettyTable
 from datos.auxiliares.datos_app import nombre_app, version_app
 from datos.negocio.negocio_ingredientes import procesar_listado_ingredientes, procesar_nuevo_ingrediente, procesar_actualizacion_ingrediente, procesar_eliminacion_ingrediente
-from datos.negocio.negocio_usuarios import procesar_listado_usuarios, crear_usuario
+from datos.negocio.negocio_usuarios import procesar_listado_usuarios, crear_usuario, actualizar_usuario_existente, eliminar_usuario_existente
 
 def mostrar_opciones():
     print(f"\n--- Menú Principal {nombre_app} v{version_app} ---")
@@ -48,8 +48,10 @@ def gestionar_usuarios():
         print("\n--- Gestión de usuarios ---")
         print("1. Leer/Listar usuarios")
         print("2. Crear nuevo usuario")
+        print("3. Actualizar usuario")
+        print("4. Eliminar usuario")
         print("0. Volver al menú principal")
-        opcion = input("Seleccione una operación (0-2): ")
+        opcion = input("Seleccione una operación (0-4): ")
 
         match opcion:
             case '1':
@@ -61,10 +63,21 @@ def gestionar_usuarios():
                 email = input("Ingrese el email del usuario: ")
                 contrasena = input("Ingrese la contraseña del usuario: ")
                 crear_usuario(nombre, email, contrasena)
+            case '3':
+                print("\n[Ejecutando: UPDATE - Actualizando registro...]")
+                id_usuario = input("Ingrese el ID del usuario: ")
+                nombre = input("Ingrese el nuevo nombre: ")
+                email = input("Ingrese el nuevo email: ")
+                contrasena = input("Ingrese la nueva contraseña: ")
+                actualizar_usuario_existente(id_usuario, nombre, email, contrasena)
+            case '4':
+                print("\n[Ejecutando: DELETE - Eliminando registro...]")
+                id_usuario = input("Ingrese el ID del usuario: ")
+                eliminar_usuario_existente(id_usuario)
             case '0':
                 break
             case _:
-                print("\nOpción no válida. Por favor, seleccione un número del 0 al 2.")
+                print("\nOpción no válida. Por favor, seleccione un número del 0 al 4.")
 
 def iniciar_menu():
     while True:
