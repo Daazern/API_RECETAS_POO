@@ -1,6 +1,6 @@
 from prettytable import PrettyTable
 
-from repositorios.repo_ingredientes import (
+from datos.repositorios.repo_ingredientes import (
     actualizar_ingrediente,
     agregar_ingrediente,
     eliminar_ingrediente,
@@ -8,12 +8,13 @@ from repositorios.repo_ingredientes import (
 )
 
 
-def procesar_listado_ingredientes(tabla: PrettyTable) -> PrettyTable:
-    tabla.field_names = ["ID", "Nombre", "Unidad de Medida"]
-    tabla.clear_rows()
-    for ingrediente in listar_ingredientes():
-        tabla.add_row([ingrediente.id_ingrediente, ingrediente.nombre, ingrediente.unidad_medida])
-    return tabla
+def procesar_listado_ingredientes(tabla: PrettyTable):
+    if tabla:
+        tabla.field_names = ["ID", "Nombre", "Unidad de Medida"]
+        tabla.clear_rows()
+        for ingrediente in listar_ingredientes():
+            tabla.add_row([ingrediente.id_ingrediente, ingrediente.nombre, ingrediente.unidad_medida])
+        return tabla
 
 
 def procesar_nuevo_ingrediente(nombre: str, unidad_medida: str):    
