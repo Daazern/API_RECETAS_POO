@@ -10,6 +10,7 @@ CREATE TABLE usuario (
     fecha_registro  DATE NOT NULL DEFAULT (CURRENT_DATE),
     popularidad      INT NOT NULL DEFAULT 0
 );
+alter table usuario add column rut varchar(12) not null unique;
 
 CREATE TABLE receta (
     id_receta           INT PRIMARY KEY AUTO_INCREMENT,

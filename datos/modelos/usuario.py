@@ -6,6 +6,7 @@
 #     fecha_registro  DATE NOT NULL DEFAULT (CURRENT_DATE),
 #     popularidad      INT NOT NULL DEFAULT 0
 # );
+# alter table usuario add column rut varchar(12) not null unique;
 from peewee import Model, AutoField, CharField, DateField, IntegerField
 from datos.sql.conexion import conectar
 
@@ -17,6 +18,7 @@ class usuario(base_model):
     id_usuario = AutoField()
     nombre = CharField(max_length=100, null=False)
     email = CharField(max_length=150, unique=True, null=False)
+    rut = CharField(max_length=12, unique=True, null=False)
     contrasena = CharField(max_length=255, null=False)
     fecha_registro = DateField(null=False)
     popularidad = IntegerField(default=0, null=False)

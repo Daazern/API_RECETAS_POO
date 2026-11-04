@@ -8,12 +8,24 @@ def listar_usuarios():
         print(f"Error al listar usuarios: {error}")
         return []
 
-def agregar_usuario(nombre, email, contrasena):
+def validar_email(email):
+    try:
+        return usuario.select().where(usuario.email == email).exists()
+    except Exception as error:
+        print(f"Error al validar email: {error}")
+        return False
+
+def agregar_usuario(nombre, email, contrasena, rut):
+    if validar_email(email):
+        print(f"El email {email} ya está en uso.")
+        return None
+
     try:
         nuevo_usuario = usuario.create(
             nombre=nombre,
             email=email,
             contrasena=contrasena,
+            rut=rut,
             fecha_registro=date.today(),
             popularidad=0
         )
@@ -22,12 +34,13 @@ def agregar_usuario(nombre, email, contrasena):
         print(f"Error al agregar usuario: {error}")
         return None
 
-def actualizar_usuario(id_usuario, nombre, email, contrasena):
+def actualizar_usuario(id_usuario, nombre, email, contrasena, rut):
     try:
         usuario_existente = usuario.get_by_id(id_usuario)
         usuario_existente.nombre = nombre
         usuario_existente.email = email
         usuario_existente.contrasena = contrasena
+        usuario_existente.rut = rut
         usuario_existente.save()
         return usuario_existente
     except usuario.DoesNotExist:
@@ -51,7 +64,16 @@ def eliminar_usuario(id_usuario):
 
 def obtener_usuario_por_id(id_usuario):
     try:
-        return usuario.get_by_id(id_usuario)
+        usuario_encontrado = usuario.get_by_id(id_usuario)
+        return {
+            "id_usuario": usuario_encontrado.id_usuario,
+            "nombre": usuario_encontrado.nombre,
+            "email": usuario_encontrado.email,
+            "contrasena": usuario_encontrado.contrasena,
+            "rut": usuario_encontrado.rut,
+            "fecha_registro": usuario_encontrado.fecha_registro.isoformat() if usuario_encontrado.fecha_registro else None,
+            "popularidad": usuario_encontrado.popularidad,
+        }
     except usuario.DoesNotExist:
         print(f"Usuario con ID {id_usuario} no encontrado.")
         return None

@@ -4,6 +4,17 @@
 #    unidad_medida   VARCHAR(30) NOT NULL
 #);
 
-from datos.modelos.models import Ingrediente
+from peewee import Model, AutoField, CharField, DateField, IntegerField
+from datos.sql.conexion import conectar
 
-__all__ = ["Ingrediente"]
+class base_model(Model):
+    class Meta:
+        database = conectar()
+
+class Ingrediente(base_model):
+    id_ingrediente = AutoField()
+    nombre = CharField(max_length=100, unique=True)
+    unidad_medida = CharField(max_length=30)
+
+    class Meta:
+        table_name = 'ingrediente'
