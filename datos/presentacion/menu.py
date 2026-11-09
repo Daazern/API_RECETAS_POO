@@ -69,7 +69,8 @@ def gestionar_usuarios():
                 nombre = input("Ingrese el nombre del usuario: ")
                 email = input("Ingrese el email del usuario: ")
                 contrasena = input("Ingrese la contraseña del usuario: ")
-                contrasena = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                #El Bycrypt esta dando problmemas asi que lo comento por ahora
+                #contrasena = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
                 print("Por favor, confirme la contraseña del usuario.")
                 while contrasena != validar_contrasena or contrasena == "":
                         validar_contrasena = input("Confirme la contraseña del usuario: ")
@@ -84,7 +85,11 @@ def gestionar_usuarios():
                 nombre = input("Ingrese el nuevo nombre: ")
                 email = input("Ingrese el nuevo email: ")
                 contrasena = input("Ingrese la nueva contraseña: ")
-                contrasena = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                while contrasena != validar_contrasena or contrasena == "":
+                        validar_contrasena = input("Confirme la nueva contraseña del usuario: ")
+                        
+                        break
+                #contrasena = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
                 rut = input("Ingrese el nuevo RUT: ")
                 actualizar_usuario_existente(id_usuario, nombre, email, contrasena, rut)
             case '4':

@@ -1,3 +1,5 @@
+import re
+
 from datos.negocio.negocio_usuarios import (procesar_listado_usuarios, crear_usuario, actualizar_usuario_existente, eliminar_usuario_existente)
 from datos.repositorios.repo_usuarios import (listar_usuarios,agregar_usuario,actualizar_usuario,eliminar_usuario,obtener_usuario_por_id)
 # CREATE TABLE usuario (
@@ -30,3 +32,14 @@ while rut=="":
     if not rut:
         print("El RUT no puede estar vacío. Por favor, ingrese un valor válido.")
         rut = ""
+    elif not re.fullmatch(patron_rut, rut):
+        print("El RUT no tiene un formato válido.")
+        rut = ""
+    else:
+        numero, digito_ingresado = rut.replace(".", "").split("-")
+        suma = sum(int(digito) * peso for digito, peso in zip(reversed(numero), (2, 3, 4, 5, 6, 7) * 3))
+        resultado = 11 - suma % 11
+        digito_calculado = "0" if resultado == 11 else "K" if resultado == 10 else str(resultado)
+        if digito_ingresado.upper() != digito_calculado:
+            print("El dígito verificador del RUT no es válido.")
+            rut = ""
