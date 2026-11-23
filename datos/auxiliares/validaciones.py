@@ -3,7 +3,6 @@ from decimal import Decimal, InvalidOperation
 
 import bcrypt
 
-
 def a_entero(valor, campo="valor"):
     """Convierte a int. Si no es válido imprime el error y retorna None."""
     try:
