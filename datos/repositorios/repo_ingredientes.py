@@ -1,4 +1,4 @@
-from datos.modelos.ingredientes import Ingrediente
+from datos.modelos.models import Ingrediente
 
 
 def listar_ingredientes():

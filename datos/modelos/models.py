@@ -1,55 +1,15 @@
-from peewee import (
-    AutoField, CharField, TextField, IntegerField, DecimalField, DateField,
-    ForeignKeyField, CompositeKey, Model, SQL,
-)
-
+from peewee import *
 from datos.sql.conexion import conectar
 
-database = conectar()
 
+defecto = "DEFAULT 0"
+defecto_fecha = "DEFAULT (CURRENT_DATE)"
+
+database = conectar()
 
 class BaseModel(Model):
     class Meta:
         database = database
-
-
-class Usuario(BaseModel):
-    id_usuario = AutoField()
-    nombre = CharField(max_length=100)
-    email = CharField(max_length=150, unique=True)
-    contrasena = CharField(max_length=255)
-    fecha_registro = DateField(constraints=[SQL("DEFAULT (CURRENT_DATE)")])
-    popularidad = IntegerField(constraints=[SQL("DEFAULT 0")])
-
-    class Meta:
-        table_name = 'usuario'
-
-
-class Receta(BaseModel):
-    id_receta = AutoField()
-    usuario = ForeignKeyField(
-        Usuario, column_name='id_usuario',
-        backref='recetas', on_delete='CASCADE',
-    )
-    nombre = CharField(max_length=150)
-    descripcion = TextField(null=True)
-    tiempo_preparacion = IntegerField()               # minutos
-    dificultad = CharField(max_length=20)             # facil, media, dificil
-    instrucciones = TextField()
-    fecha_publicacion = DateField(constraints=[SQL("DEFAULT (CURRENT_DATE)")])
-
-    class Meta:
-        table_name = 'receta'
-
-
-class Ingrediente(BaseModel):
-    id_ingrediente = AutoField()
-    nombre = CharField(max_length=100, unique=True)
-    unidad_medida = CharField(max_length=30)
-
-    class Meta:
-        table_name = 'ingrediente'
-
 
 class Categoria(BaseModel):
     id_categoria = AutoField()
@@ -59,89 +19,87 @@ class Categoria(BaseModel):
     class Meta:
         table_name = 'categoria'
 
-
 class Comentario(BaseModel):
+    fecha = DateField(constraints=[SQL(defecto_fecha)])
     id_comentario = AutoField()
-    usuario = ForeignKeyField(
-        Usuario, column_name='id_usuario',
-        backref='comentarios', on_delete='CASCADE',
-    )
-    receta = ForeignKeyField(
-        Receta, column_name='id_receta',
-        backref='comentarios', on_delete='CASCADE',
-    )
+    id_receta = IntegerField(index=True)
+    id_usuario = IntegerField(index=True)
     texto = TextField()
-    fecha = DateField(constraints=[SQL("DEFAULT (CURRENT_DATE)")])
 
     class Meta:
         table_name = 'comentario'
 
-
-class Valoracion(BaseModel):
-    id_valoracion = AutoField()
-    usuario = ForeignKeyField(
-        Usuario, column_name='id_usuario',
-        backref='valoraciones', on_delete='CASCADE',
-    )
-    receta = ForeignKeyField(
-        Receta, column_name='id_receta',
-        backref='valoraciones', on_delete='CASCADE',
-    )
-    puntuacion = IntegerField()                       # 1 a 5 (CHECK en la BD)
-    fecha = DateField(constraints=[SQL("DEFAULT (CURRENT_DATE)")])
-
-    class Meta:
-        table_name = 'valoracion'
-        indexes = (
-            (('usuario', 'receta'), True),            # UNIQUE (id_usuario, id_receta)
-        )
-
-
 class Guardado(BaseModel):
+    fecha_guardado = DateField(constraints=[SQL(defecto_fecha)])
     id_guardado = AutoField()
-    usuario = ForeignKeyField(
-        Usuario, column_name='id_usuario',
-        backref='guardados', on_delete='CASCADE',
-    )
-    receta = ForeignKeyField(
-        Receta, column_name='id_receta',
-        backref='guardados', on_delete='CASCADE',
-    )
-    fecha_guardado = DateField(constraints=[SQL("DEFAULT (CURRENT_DATE)")])
+    id_receta = IntegerField(index=True)
+    id_usuario = IntegerField(index=True)
 
     class Meta:
         table_name = 'guardado'
         indexes = (
-            (('usuario', 'receta'), True),
+            (('id_usuario', 'id_receta'), True),
         )
 
+class Ingrediente(BaseModel):
+    id_ingrediente = AutoField()
+    nombre = CharField(max_length=100, unique=True)
+    unidad_medida = CharField(max_length=30)
+
+    class Meta:
+        table_name = 'ingrediente'
+
+class Receta(BaseModel):
+    descripcion = TextField(null=True)
+    dificultad = CharField(max_length=20)
+    fecha_publicacion = DateField(constraints=[SQL(defecto_fecha)])
+    id_receta = AutoField()
+    id_usuario = IntegerField(index=True)
+    instrucciones = TextField()
+    nombre = CharField(max_length=150)
+    tiempo_preparacion = IntegerField()
+
+    class Meta:
+        table_name = 'receta'
 
 class RecetaCategoria(BaseModel):
-    receta = ForeignKeyField(
-        Receta, column_name='id_receta',
-        backref='categorias_rel', on_delete='CASCADE',
-    )
-    categoria = ForeignKeyField(
-        Categoria, column_name='id_categoria',
-        backref='recetas_rel', on_delete='CASCADE',
-    )
+    id_categoria = IntegerField(index=True)
+    id_receta = IntegerField(index=True)
 
     class Meta:
         table_name = 'receta_categoria'
-        primary_key = CompositeKey('receta', 'categoria')
-
+        primary_key = CompositeKey('id_receta', 'id_categoria')
 
 class RecetaIngrediente(BaseModel):
-    receta = ForeignKeyField(
-        Receta, column_name='id_receta',
-        backref='ingredientes_rel', on_delete='CASCADE',
-    )
-    ingrediente = ForeignKeyField(
-        Ingrediente, column_name='id_ingrediente',
-        backref='recetas_rel', on_delete='CASCADE',
-    )
-    cantidad = DecimalField(max_digits=10, decimal_places=2)
+    cantidad = DecimalField(decimal_places=2, max_digits=10)
+    id_ingrediente = IntegerField(index=True)
+    id_receta = IntegerField(index=True)
 
     class Meta:
         table_name = 'receta_ingrediente'
-        primary_key = CompositeKey('receta', 'ingrediente')
+        primary_key = CompositeKey('id_receta', 'id_ingrediente')
+
+class Usuario(BaseModel):
+    contrasena = CharField(max_length=255)
+    email = CharField(max_length=150, unique=True)
+    fecha_registro = DateField(constraints=[SQL(defecto_fecha)])
+    id_usuario = AutoField()
+    nombre = CharField(max_length=100)
+    popularidad = IntegerField(constraints=[SQL(defecto)])
+    rut = CharField(max_length=12, unique=True)
+
+    class Meta:
+        table_name = 'usuario'
+
+class Valoracion(BaseModel):
+    fecha = DateField(constraints=[SQL(defecto_fecha)])
+    id_receta = IntegerField(index=True)
+    id_usuario = IntegerField(index=True)
+    id_valoracion = AutoField()
+    puntuacion = IntegerField()
+
+    class Meta:
+        table_name = 'valoracion'
+        indexes = (
+            (('id_usuario', 'id_receta'), True),
+        )

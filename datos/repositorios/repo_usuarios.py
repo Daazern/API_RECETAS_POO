@@ -1,16 +1,16 @@
 from datetime import date
-from datos.modelos.usuario import usuario
+from datos.modelos.models import Usuario
 
 def listar_usuarios():
     try:
-        return list(usuario.select().order_by(usuario.id_usuario))
+        return list(Usuario.select().order_by(Usuario.id_usuario))
     except Exception as error:
         print(f"Error al listar usuarios: {error}")
         return []
 
 def validar_email(email):
     try:
-        return usuario.select().where(usuario.email == email).exists()
+        return Usuario.select().where(Usuario.email == email).exists()
     except Exception as error:
         print(f"Error al validar email: {error}")
         return False
@@ -21,7 +21,7 @@ def agregar_usuario(nombre, email, contrasena, rut):
         return None
 
     try:
-        nuevo_usuario = usuario.create(
+        nuevo_usuario = Usuario.create(
             nombre=nombre,
             email=email,
             contrasena=contrasena,
@@ -36,14 +36,14 @@ def agregar_usuario(nombre, email, contrasena, rut):
 
 def actualizar_usuario(id_usuario, nombre, email, contrasena, rut):
     try:
-        usuario_existente = usuario.get_by_id(id_usuario)
+        usuario_existente = Usuario.get_by_id(id_usuario)
         usuario_existente.nombre = nombre
         usuario_existente.email = email
         usuario_existente.contrasena = contrasena
         usuario_existente.rut = rut
         usuario_existente.save()
         return usuario_existente
-    except usuario.DoesNotExist:
+    except Usuario.DoesNotExist:
         print(f"Usuario con ID {id_usuario} no encontrado.")
         return None
     except Exception as error:
@@ -52,10 +52,10 @@ def actualizar_usuario(id_usuario, nombre, email, contrasena, rut):
 
 def eliminar_usuario(id_usuario):
     try:
-        usuario_existente = usuario.get_by_id(id_usuario)
+        usuario_existente = Usuario.get_by_id(id_usuario)
         usuario_existente.delete_instance()
         return True
-    except usuario.DoesNotExist:
+    except Usuario.DoesNotExist:
         print(f"Usuario con ID {id_usuario} no encontrado.")
         return False
     except Exception as error:
@@ -64,7 +64,7 @@ def eliminar_usuario(id_usuario):
 
 def obtener_usuario_por_id(id_usuario):
     try:
-        usuario_encontrado = usuario.get_by_id(id_usuario)
+        usuario_encontrado = Usuario.get_by_id(id_usuario)
         return {
             "id_usuario": usuario_encontrado.id_usuario,
             "nombre": usuario_encontrado.nombre,
@@ -74,7 +74,7 @@ def obtener_usuario_por_id(id_usuario):
             "fecha_registro": usuario_encontrado.fecha_registro.isoformat() if usuario_encontrado.fecha_registro else None,
             "popularidad": usuario_encontrado.popularidad,
         }
-    except usuario.DoesNotExist:
+    except Usuario.DoesNotExist:
         print(f"Usuario con ID {id_usuario} no encontrado.")
         return None
     except Exception as error:
@@ -83,8 +83,8 @@ def obtener_usuario_por_id(id_usuario):
 
 def obtener_usuario_por_email(email):
     try:
-        return usuario.get(usuario.email == email)
-    except usuario.DoesNotExist:
+        return Usuario.get(Usuario.email == email)
+    except Usuario.DoesNotExist:
         print(f"Usuario con email {email} no encontrado.")
         return None
     except Exception as error:
@@ -93,13 +93,21 @@ def obtener_usuario_por_email(email):
 
 def actualizar_popularidad_usuario(id_usuario, nueva_popularidad):
     try:
-        usuario_existente = usuario.get_by_id(id_usuario)
+        usuario_existente = Usuario.get_by_id(id_usuario)
         usuario_existente.popularidad = nueva_popularidad
         usuario_existente.save()
         return usuario_existente
-    except usuario.DoesNotExist:
+    except Usuario.DoesNotExist:
         print(f"Usuario con ID {id_usuario} no encontrado.")
         return None
     except Exception as error:
         print(f"Error al actualizar popularidad del usuario: {error}")
+        return None
+
+def buscar_usuario_por_email(email):
+    """Igual que obtener_usuario_por_email pero sin imprimir si no existe (para el login)."""
+    try:
+        return Usuario.get_or_none(Usuario.email == email)
+    except Exception as error:
+        print(f"Error al buscar usuario por email: {error}")
         return None
