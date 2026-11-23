@@ -59,22 +59,37 @@ def validar_formato_contrasena(contrasena):
 
 
 def validar_rut(rut):
-    """Valida formato y dígito verificador. Retorna el RUT normalizado (12.345.678-9) o None."""
-    rut = (rut or "").strip().replace(".", "").upper()
-    if not rut:
-        print("El RUT no puede estar vacío.")
-        return None
-    if not re.fullmatch(r"\d{7,8}-[\dK]", rut):
-        print("El RUT no tiene un formato válido (ej: 12.345.678-9).")
-        return None
-    numero, digito = rut.split("-")
-    suma = sum(int(d) * peso for d, peso in zip(reversed(numero), (2, 3, 4, 5, 6, 7) * 2))
-    resultado = 11 - suma % 11
-    esperado = "0" if resultado == 11 else "K" if resultado == 10 else str(resultado)
-    if digito != esperado:
-        print("El dígito verificador del RUT no es válido.")
-        return None
-    return f"{int(numero):,}".replace(",", ".") + "-" + digito
+    """Solicita obligatoriamente un RUT válido y retorna su formato normalizado (12.345.678-9)."""
+    while True:
+        rut = rut or input("Ingrese el RUT (ej: 12.345.678-9): ")
+        rut = rut.strip().replace(".", "").upper()
+
+        if not rut:
+            print("El RUT no puede estar vacío.")
+            rut = None
+            continue
+        if not re.fullmatch(r"\d{7,8}-[\dK]", rut):
+            print("El RUT no tiene un formato válido (ej: 12.345.678-9).")
+            rut = None
+            continue
+
+        numero, digito = rut.split("-")
+        suma = sum(int(d) * peso for d, peso in zip(reversed(numero), (2, 3, 4, 5, 6, 7) * 2))
+        resultado = 11 - suma % 11
+
+        if resultado == 11:
+            esperado = "0"
+        elif resultado == 10:
+            esperado = "K"
+        else:
+            esperado = str(resultado)
+
+        if digito != esperado:
+            print("El dígito verificador del RUT no es válido.")
+            rut = None
+            continue
+
+        return f"{int(numero):,}".replace(",", ".") + "-" + digito
 
 
 # ---------- Cifrado de contraseñas (bcrypt) ----------

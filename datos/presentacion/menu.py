@@ -11,7 +11,7 @@ from datos.negocio.negocio_receta_categorias import procesar_listado_receta_cate
 from datos.negocio.negocio_receta_ingredientes import procesar_listado_receta_ingredientes, procesar_nuevo_receta_ingrediente, procesar_actualizacion_receta_ingrediente, procesar_eliminacion_receta_ingrediente
 from getpass import getpass
 from datos.auxiliares.sesion import iniciar_sesion, cerrar_sesion, obtener_usuario_actual
-from datos.auxiliares.validaciones import validar_formato_contrasena
+from datos.auxiliares.validaciones import validar_formato_contrasena, validar_rut
 
 def pedir_contrasena(mensaje="Ingrese la contraseña del usuario", opcional=False):
     """Pide la contraseña (oculta), la valida y pide confirmación.
@@ -34,7 +34,7 @@ def registrar_usuario():
     contrasena = pedir_contrasena()
     if contrasena is None:
         return None
-    rut = input("Ingrese el RUT del usuario: ")
+    rut = validar_rut(None)
     return crear_usuario(nombre, email, contrasena, rut)
 
 def pantalla_acceso():
